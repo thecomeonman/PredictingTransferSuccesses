@@ -21,7 +21,7 @@ action.
 \[@canzhiye\](<https://twitter.com/canzhiye>) has fortunately computed
 this for all the players playing in a bunch of leagues for the last some
 years.
-\[@TonyElHabr\](<https://twitter.com/TonyElHabr/status/1405946557237796871>)
+\[@TonyElHabr\](<https://tonyelhabr.rbind.io/post/soccer-league-strength/>)
 recently used it in a model to solve the same problem as me which is
 where this discussion started and he was kind enough to help me get
 access to the data to try my approach on it too. We have different
@@ -135,11 +135,12 @@ later.
 ## Model Evaluation
 
 One way to measure the quality of the calibration is to evaluate the
-difference in conversion factors on various paths between the same
-leagues, for eg. how different is the value of the Ligue 1 to EPL
-conversion factor compared to the Ligue 1 to La Liga conversion factor
-\* La Liga to EPL conversion factor. A well calibrated model should have
-a very low difference between the two.
+difference in conversion factors on various ways of moving between the
+same leagues, which I’ll call transfer chains from here on. For eg. how
+different is the value of the Ligue 1 to EPL conversion factor compared
+to the Ligue 1 to La Liga conversion factor \* La Liga to EPL conversion
+factor. A well calibrated model should have a very low difference
+between the two.
 
 Another way to measure the quality of the calibration is to evaluate how
 far the calibrated conversion factors are from the observed median
@@ -217,10 +218,10 @@ recency also as an input in how we decide confidence in the model.
 Let us look at the other criteria of comparing the conversion factor
 between two leagues based on the various ways in which players could
 move between those two leagues. We will do this by comparing the
-conversion factor from league a to league b with the conversion factors
-of all paths which involved having up to two other leagues in between
-league a and b, eg. league a -&gt; b compared to league a -&gt; c -&gt;
-b, league a -&gt; c -&gt; d -&gt; b, etc.
+conversion factor directly from league a to league b with the combined
+conversion factor of all other ways in which a player could move between
+league a and league b, eg. league a -&gt; b compared to league a -&gt; c
+-&gt; b, league a -&gt; c -&gt; d -&gt; b, etc.
 
 ![](README_files/figure-markdown_strict/graph_length_2_viz-1.png)
 
@@ -228,7 +229,7 @@ b, league a -&gt; c -&gt; d -&gt; b, etc.
 
 The differences are usually very low which means our model was able to
 arrive at a solution where all the links were consistent with each other
-and in terms of independence of the path followed between two leagues.
+and in terms of independence of the transfer chain between two leagues.
 
 ## What Next
 
