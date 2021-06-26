@@ -18,12 +18,14 @@ has more details but in short, it calculates a probability of a team
 eventually scoring a goal as a result of a player performing a certain
 action.
 
-<todo> has fortunately computed this for all the players playing in a
-bunch of leagues for the last some years. <todo> recently used it in a
-model to solve the same problem as me which is where this discussion
-started and he was kind enough to help me get access to the data to try
-my approach on it too. We have different models though so you should go
-and read his post as well.
+\[@canzhiye\](<https://twitter.com/canzhiye>) has fortunately computed
+this for all the players playing in a bunch of leagues for the last some
+years.
+\[@TonyElHabr\](<https://twitter.com/TonyElHabr/status/1405946557237796871>)
+recently used it in a model to solve the same problem as me which is
+where this discussion started and he was kind enough to help me get
+access to the data to try my approach on it too. We have different
+models though so you should go and read his post as well.
 
 ## Model Structure
 
