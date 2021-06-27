@@ -186,9 +186,9 @@ If the earlier discussion about having the two links between a pair of
 leagues modelled as inverse of each other were true then we’d see
 diagonally opposite elements being reciprocals of each other, for eg. a
 transfer from Spain La Liga to the Scotland Premiership typically
-results in the VAEP/minute becoming 1.75 times or 175% and a transfer in
-the other direction see it become 0.57 times which is approximately =
-1/1.75 so the inverse relationship holds.
+results in the VAEP/minute becoming 1.77 times or 177% and a transfer in
+the other direction see it become 0.55 times which is approximately =
+1/1.77 so the inverse relationship holds.
 
 Here is a comparison of every conversion factor with the inverse of it’s
 corresponding opposite link -
@@ -205,6 +205,8 @@ observed factors.
 ![](README_files/figure-markdown_strict/edges_viz-1.png)
 
 ![](README_files/figure-markdown_strict/edges_deviation_viz-1.png)
+
+![](README_files/figure-markdown_strict/edges_deviation_viz_hist-1.png)
 
 Pairs of leagues which have seen lots of transfers between them have
 very similar values from the model and observation, which is a good
@@ -231,13 +233,13 @@ The differences are usually very low which means our model was able to
 arrive at a solution where all the links were consistent with each other
 and in terms of independence of the transfer chain between two leagues.
 
-## What Next
+## How To Use This
 
-First - this is a very limited model. It is useful but limited. It is
-limited because it models the VAEP conversion factor of players who
-*have* moved between leagues which may or may not be a good estimate for
-a random player moving between leagues. Players who *have* moved are not
-a random sample of players so it is a biased view.
+This is a very limited model. It is useful but limited. It is limited
+because it models the VAEP conversion factor of players who *have* moved
+between leagues which may or may not be a good estimate for a random
+player moving between leagues. Players who *have* moved are not a random
+sample of players so it is a biased view.
 
 It might also just be useful as a macro model and not useful to predict
 the VAEP we can expect from specific transfers. Remember we’re
@@ -255,3 +257,169 @@ I’ve been trying to model this difference too but no success yet. In
 good news though I also included inputs in this model to check if our
 assumption of a -&gt; b being similar to a -&gt; c -&gt; b was wrong but
 there is no indication for that either yet. You win some you lose some.
+
+## Another Simplified Model
+
+An easier model to calibrate would be where each league has a from
+conversion factor, for when the player transfers out of the league, and
+a to conversion factor, for when the player transfers to the league. The
+conversion factor for a transfer between those two leagues is a product
+of the two conversion factors.
+
+You can take logs and convert it to a linear equation, log(1/from league
+a factor) + log(to league b factor) = log(conversion factor), and then
+solve it as a linear regression. We could also try having just one
+factor for each league and using it and its inverse as a to and from but
+same logic as earlier, this will allow for an independent relationship
+between those two so we’ll keep them separate.
+
+An example of the dataset we’ll give to linear regression for our first
+example for a transfer between the EPL to the La Liga would look like
+this -
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">from_league_EPL</th>
+<th style="text-align: right;">from_league_LaLiga</th>
+<th style="text-align: right;">from_league_Ligue1</th>
+<th style="text-align: right;">from_league_SerieA</th>
+<th style="text-align: right;">to_league_EPL</th>
+<th style="text-align: right;">to_league_LaLiga</th>
+<th style="text-align: right;">to_league_Ligue1</th>
+<th style="text-align: right;">to_league_SerieA</th>
+<th style="text-align: right;">conversion_factor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.2</td>
+</tr>
+</tbody>
+</table>
+
+There would again be an extra weight to take into account the recency of
+the transfer, where we give more importance to recent tranfers and less
+importance to older ones. Each transfer is now fed independently into
+this model, as compared to the earlier model where we sent medians, so
+we don’t need to explicitly incorporate the count of transfers between
+leagues.
+
+One problem that there is though that you can’t take logs of negative
+values but we have very very few negative observed conversion factors (
+i.e. cases where overall VAEP was negative ) so we’ll just ignore them
+for now.
+
+Here are what the results for this simple model look like. They are
+quite similar to our earlier model and probably worth it for the ease of
+calibrating this.
+
+![](README_files/figure-markdown_strict/graph_viz-1.png)
+
+So now that we have a to factor and a from factor for each league, as
+compared to have a separate relationship between each pair of leagues,
+we need to look at this matrix a little differently. The values along
+the rows are representative of the from factor, and the values along the
+columns representative of the from factor. Scotland’s Premiership and
+Russia’s Premier League are interesting because its values along its
+rows suggest that most players that transfer from that league to other
+leagues have a &lt;1 conversion factor but players coming to those
+leagues from most other leagues also have a &lt;1 conversion factor.
+This means that these leagues are probably tough to play in even if
+players are coming from other leagues considered higher quality leagues.
+
+![](README_files/figure-markdown_strict/edges_viz-1.png)
+
+![](README_files/figure-markdown_strict/graph_length_2_viz-1.png)
+
+![](README_files/figure-markdown_strict/graph_length_3_viz-1.png)
+
+## Adding Other Factors to the Simple Model
+
+Now that we have a simple model which is easy to calibrate, let us see
+if we can add more granularity to it. This is again with a view to
+bridging the variance of the actual conversion values compared to the
+overall prediction between a pair of leagues.
+
+This hasn’t been very successful though so don’t keep your hopes up for
+the rest of the article.
+
+Let’s add variables to this dataset which captures the teams which works
+the same way as the league variables, a -1 in the from\_team column and
+a +1 in the to\_team column and try and regress this. The coefficients
+aren’t individually as strong a predictor anymore though because there
+are a lot more variables that the model is trying to split the effect on
+the ouput amongst many more input variables.
+
+Here is what the league comparison looks like with this model.
+
+![](README_files/figure-markdown_strict/graph_viz_simple_with_teams-1.png)
+
+That isn’t very good. Sigh.
+
+I tried another thing - holding the the league level coefficients
+constant from our simplest model and letting the team level variables
+account only for the difference between each individual transfer’s
+conversion factor and the league pair suggested conversion factor. This
+is mixed effects model territory.
+
+The relationship between leagues would remain the same as the simple
+model so the coefficients for the teams is our focus here.
+
+Based on the visual, there isn’t a large improvement in the predictions
+though. The model’s predictions of the coefficients are also often not
+very confident but let us take a look at them anyway. Now is a good time
+for us to drop interpreting these coefficients as an indicator of league
+or team strength and go back to seeing them as what they should be seen
+as - an indicator of how well players perform after transfers. In this
+case, since we have modelled the difference from the league based
+predictions, this is really a measure of how well the players do after
+transfers after adjusting for the change of league. Amongst teams that
+have had at least 5 transfers to and from them, here is how the
+coefficients look -
+
+![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams-1.png)
+
+![](README_files/figure-markdown_strict/team_order_simple_with_teams_fixed_leagues_minus_league_effect-1.png)
+
+I can think of some interpretations for this plot:
+
+-   teams on the bottom right are likely coached very well since players
+    coming to them play much better than their previous teams while
+    players players leaving them typically see their output drop after
+    adjusting for league change
+-   teams on the top left are the opposite - likely coached very poorly
+-   teams on the top right are teams that typically get players on their
+    way up, they typically see players improve when they come to the
+    team and when they leave the team
+-   teams on the bottom left are teams that typically get players on
+    their way down
+
+Som of the names make sense against this description but maybe not all
+of them. That said, the model is again not very confident about most of
+the coefficients and therefore you should expect a large case to case
+variance around this prediction, which is what the earlier plot of the
+prediction vs. actual conversions was also suggesting.
+
+## Get in touch
+
+\[Find me on Twitter, @thecomeonman\](twitter.com/thecomeonman)
