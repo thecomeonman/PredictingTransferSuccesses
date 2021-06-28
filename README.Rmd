@@ -21,6 +21,15 @@ We use [VAEP](https://github.com/soccer-analytics-research/fot-valuing-actions),
 
 rm(list = ls())
 library(knitr)
+
+knitr::opts_chunk$set(
+   echo = F,
+   message = F,
+   warning = F,
+   fig.width = 12,
+   fig.height = 6
+)
+
 knitr::read_chunk('../AnalysingFootballData/VAEPConversion.R')
 
 ```

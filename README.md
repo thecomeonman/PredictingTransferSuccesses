@@ -27,29 +27,6 @@ where this discussion started and he was kind enough to help me get
 access to the data to try my approach on it too. We have different
 models though so you should go and read his post as well.
 
-    if ( T ) {
-       library(data.table)
-       library(ggplot2)
-       library(scales)
-       library(CodaBonito)
-       library(glmnet)
-
-       knitr::opts_chunk$set(
-          echo = F,
-          message = F,
-          warning = F,
-          fig.width = 12,
-          fig.height = 6
-       )
-
-       theme_set(theme_bw(12))
-
-    }
-
-    ## Loading required package: Matrix
-
-    ## Loaded glmnet 4.1-2
-
 ## Model Structure
 
 This model will centre on a player’s VAEP/minute value as a measure
