@@ -1,6 +1,6 @@
 ## Motivation
 
-Predicting transfer successes would make you rich.
+Predicting transfer successes would make me rich.
 
 ## Introduction
 
@@ -18,14 +18,37 @@ has more details but in short, it calculates a probability of a team
 eventually scoring a goal as a result of a player performing a certain
 action.
 
-\[@canzhiye\](<https://twitter.com/canzhiye>) has fortunately computed
-this for all the players playing in a bunch of leagues for the last some
+[canzhiye](https://twitter.com/canzhiye) has fortunately computed this
+for all the players playing in a bunch of leagues for the last some
 years.
-\[@TonyElHabr\](<https://tonyelhabr.rbind.io/post/soccer-league-strength/>)
+[TonyElHabr](https://tonyelhabr.rbind.io/post/soccer-league-strength/)
 recently used it in a model to solve the same problem as me which is
 where this discussion started and he was kind enough to help me get
 access to the data to try my approach on it too. We have different
 models though so you should go and read his post as well.
+
+    if ( T ) {
+       library(data.table)
+       library(ggplot2)
+       library(scales)
+       library(CodaBonito)
+       library(glmnet)
+
+       knitr::opts_chunk$set(
+          echo = F,
+          message = F,
+          warning = F,
+          fig.width = 12,
+          fig.height = 6
+       )
+
+       theme_set(theme_bw(12))
+
+    }
+
+    ## Loading required package: Matrix
+
+    ## Loaded glmnet 4.1-2
 
 ## Model Structure
 
@@ -277,28 +300,28 @@ An example of the dataset we’ll give to linear regression for our first
 example for a transfer between the EPL to the La Liga would look like
 this -
 
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 10%" />
+<col style="width: 9%" />
 <col style="width: 12%" />
 <col style="width: 12%" />
 <col style="width: 12%" />
-<col style="width: 8%" />
+<col style="width: 7%" />
 <col style="width: 10%" />
 <col style="width: 10%" />
 <col style="width: 10%" />
-<col style="width: 11%" />
+<col style="width: 18%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">from_league_EPL</th>
-<th style="text-align: right;">from_league_LaLiga</th>
-<th style="text-align: right;">from_league_Ligue1</th>
-<th style="text-align: right;">from_league_SerieA</th>
-<th style="text-align: right;">to_league_EPL</th>
-<th style="text-align: right;">to_league_LaLiga</th>
-<th style="text-align: right;">to_league_Ligue1</th>
-<th style="text-align: right;">to_league_SerieA</th>
+<th style="text-align: right;">from_EPL</th>
+<th style="text-align: right;">from_LaLiga</th>
+<th style="text-align: right;">from_Ligue1</th>
+<th style="text-align: right;">from_SerieA</th>
+<th style="text-align: right;">to_EPL</th>
+<th style="text-align: right;">to_LaLiga</th>
+<th style="text-align: right;">to_Ligue1</th>
+<th style="text-align: right;">to_SerieA</th>
 <th style="text-align: right;">conversion_factor</th>
 </tr>
 </thead>
@@ -368,38 +391,43 @@ the same way as the league variables, a -1 in the from\_team column and
 a +1 in the to\_team column and try and regress this. The coefficients
 aren’t individually as strong a predictor anymore though because there
 are a lot more variables that the model is trying to split the effect on
-the ouput amongst many more input variables.
+the output amongst many more input variables.
 
 Here is what the league comparison looks like with this model.
 
-![](README_files/figure-markdown_strict/graph_viz_simple_with_teams-1.png)
+![](README_files/figure-markdown_strict/graph_viz_simple_with_teams_41346-1.png)
 
 That isn’t very good. Sigh.
 
-I tried another thing - holding the the league level coefficients
-constant from our simplest model and letting the team level variables
-account only for the difference between each individual transfer’s
-conversion factor and the league pair suggested conversion factor. This
-is mixed effects model territory.
+I really want this model to work because unlike earlier where we were
+trying to predict the median, this uses individual transfers and has
+context of the teams so if one team makes many more transfers than
+another team in the same league then the first team will have a much
+higher influence on the median for the league which will distort the
+*typical* expectation from that league. What I’m going to do is add a
+small regularisation penalty to avoid coefficients becoming too large
+away from 1. Let’s see what this looks like now.
 
-The relationship between leagues would remain the same as the simple
-model so the coefficients for the teams is our focus here.
+![](README_files/figure-markdown_strict/graph_viz_simple_with_teams_8624-1.png)
 
-Based on the visual, there isn’t a large improvement in the predictions
-though. The model’s predictions of the coefficients are also often not
-very confident but let us take a look at them anyway. Now is a good time
-for us to drop interpreting these coefficients as an indicator of league
-or team strength and go back to seeing them as what they should be seen
-as - an indicator of how well players perform after transfers. In this
-case, since we have modelled the difference from the league based
-predictions, this is really a measure of how well the players do after
-transfers after adjusting for the change of league. Amongst teams that
-have had at least 5 transfers to and from them, here is how the
-coefficients look -
+Much better. More believable although quite different from our first
+result. We could probably do some more fine tuning but it is reasonable
+right now so let us proceed.
 
-![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams-1.png)
+![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams_61346134-1.png)
 
-![](README_files/figure-markdown_strict/team_order_simple_with_teams_fixed_leagues_minus_league_effect-1.png)
+The predictions are still not great though.
+
+Now is a good time for us to drop interpreting these coefficients as an
+indicator of league or team strength and go back to seeing them as what
+they should be seen as - an indicator of how well players perform after
+transfers. In this case, since we have modelled the difference from the
+league based predictions, this is really a measure of how well the
+players do after transfers after adjusting for the change of league.
+Amongst teams that have had at least 5 transfers to and from them, here
+is how the coefficients look -
+
+![](README_files/figure-markdown_strict/team_order_simple_with_teams_with_regularisation_minus_league_effect-1.png)
 
 I can think of some interpretations for this plot:
 
@@ -410,16 +438,42 @@ I can think of some interpretations for this plot:
 -   teams on the top left are the opposite - likely coached very poorly
 -   teams on the top right are teams that typically get players on their
     way up, they typically see players improve when they come to the
-    team and when they leave the team
+    team and when they leave the team after adjusting for league change
 -   teams on the bottom left are teams that typically get players on
     their way down
 
-Som of the names make sense against this description but maybe not all
-of them. That said, the model is again not very confident about most of
-the coefficients and therefore you should expect a large case to case
+Some of the names make sense against this description but maybe not all
+of them. That said, the model is again not confident about most of the
+coefficients and therefore you should expect a large case to case
 variance around this prediction, which is what the earlier plot of the
-prediction vs. actual conversions was also suggesting.
+prediction vs. actual conversions for this model was also suggesting.
 
-## Get in touch
+## Adding Other Factors to the Simple Model - 2
 
-\[Find me on Twitter, @thecomeonman\](twitter.com/thecomeonman)
+Instead of regularising, I tried another thing where I hold the the
+league level coefficients constant from our simplest model and letting
+the team level variables account only for the difference between each
+individual transfer’s conversion factor and the league pair suggested
+conversion factor. This is mixed effects model territory.
+
+The relationship between leagues would remain the same as the simple
+model so the coefficients for the teams is our focus here.
+
+Based on the visual, there isn’t a large improvement in the predictions
+though. The model’s predictions of the coefficients are also often not
+very confident but let us take a look at them anyway.
+
+![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams_35161-1.png)
+
+![](README_files/figure-markdown_strict/team_order_simple_with_teams_fixed_leagues_minus_league_effect-1.png)
+
+## Wrapping Up
+
+I also tried adding features related to age, physical attributes,
+playing position, matches or time played, and experience from other
+leagues to see if they helped narrow the prediction down but no luck.
+Going to have to continue at my job for some more time, I guess.
+
+For feedback, suggestions, etc. [find me on Twitter,
+thecomeonman](https://www.twitter.com/thecomeonman) or drop me a mail -
+mail dot thecomeonman at gmail.
