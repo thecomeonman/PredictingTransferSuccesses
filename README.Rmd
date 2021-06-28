@@ -391,7 +391,7 @@ I really want this model to work because unlike earlier where we were trying to 
 ```{r graph_viz_simple_with_teams_8624, ref.label = 'graph_viz_simple_with_teams', fig.height = 12}
 ```
 
-Much better. More believable although quite different from our first result. We could probably do some more fine tuning but it is reasonable right now so let us proceed.
+Much better. More believable although quite different from our first result. The difference is not a bad thing though because now we're including team effects whereas earlier we were ignoring it. I'd probably trust this model more than the earlier one. We could probably do some more fine tuning but it is reasonable right now so let us proceed.
 
 ```{r calculating_deviations_simple_with_teams_61346134, ref.label = 'calculating_deviations_simple_with_teams'}
 ```

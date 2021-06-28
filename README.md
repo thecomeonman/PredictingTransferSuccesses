@@ -410,9 +410,7 @@ away from 1. Let’s see what this looks like now.
 
 ![](README_files/figure-markdown_strict/graph_viz_simple_with_teams_8624-1.png)
 
-Much better. More believable although quite different from our first
-result. We could probably do some more fine tuning but it is reasonable
-right now so let us proceed.
+Much better. More believable although quite different from our first result. The difference is not a bad thing though because now we're including team effects whereas earlier we were ignoring it. I'd probably trust this model more than the earlier one. We could probably do some more fine tuning but it is reasonable right now so let us proceed.v
 
 ![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams_61346134-1.png)
 
