@@ -270,7 +270,7 @@ This is what the model suggests are the conversion factors between pairs of leag
 ```{r prepare_master_graph}
 ```
 
-```{r graph_viz, fig.height = 12}
+```{r graph_viz_4513451345, ref.label='graph_viz', fig.height = 12}
 ```
 
 Numbers > 1 indicates moving from the league on the left to the league on bottom usually see the player increase their VAEP/minute by that factor. The order of the leagues is based on how many leagues have a conversion factor of > 1 and is roughly an indication of league strength although strictly speaking it isn't that. The order is mostly sensible with a few debatable ones though like Portugal's Primeira Liga being above Germany's Bundesliga.
@@ -288,10 +288,10 @@ They lie pretty much along the x = y line indicating that even though we didn't 
 
 This is how much the model suggested conversion factors differ from the observed factors.
 
-```{r edges_viz}
+```{r edges_viz_613461346, ref.label='edges_viz'}
 ```
 
-```{r edges_deviation_viz}
+```{r edges_deviation_viz_613461346, ref.label = 'edges_deviation_viz'}
 ```
 
 ```{r edges_deviation_viz_hist}
@@ -301,10 +301,10 @@ Pairs of leagues which have seen lots of transfers between them have very simila
 
 Let us look at the  other criteria of comparing the conversion factor between two leagues based on the various ways in which players could move between those two leagues. We will do this by comparing the conversion factor directly from league a to league b with the combined conversion factor of all other ways in which a player could move between league a and league b, eg. league a -> b compared to league a -> c -> b, league a -> c -> d -> b, etc.
 
-```{r graph_length_2_viz, fig.height = 12}
+```{r graph_length_2_viz_24234213, ref.label='graph_length_2_viz', fig.height = 12}
 ```
 
-```{r graph_length_3_viz, fig.height = 12}
+```{r graph_length_3_viz_24234213, ref.label='graph_length_3_viz', fig.height = 12}
 ```
 
 The differences are usually very low which means our model was able to arrive at a solution where all the links were consistent with each other and in terms of independence of the transfer chain between two leagues.
@@ -360,18 +360,18 @@ Here are what the results for this simple model look like. They are quite simila
 ```{r graph_calibration_simple}
 ```
 
-```{r graph_viz, fig.height = 12}
+```{r graph_viz_3451345134, ref.label='graph_viz', fig.height = 12}
 ```
 
 So now that we have a to factor and a from factor for each league, as compared to have a separate relationship between each pair of leagues, we need to look at this matrix a little differently. The values along the rows are representative of the from factor, and the values along the columns representative of the from factor. Scotland's Premiership and Russia's Premier League are interesting because its values along its rows suggest that most players that transfer from that league to other leagues have a <1 conversion factor but players coming to those leagues from most other leagues also have a <1 conversion factor. This means that these leagues are probably tough to play in even if players are coming from other leagues considered higher quality leagues.
 
-```{r edges_viz}
+```{r edges_viz_724524562, ref.label='edges_viz'}
 ```
 
-```{r graph_length_2_viz, fig.height = 12}
+```{r graph_length_2_viz_724524562, ref.label='graph_length_2_viz', fig.height = 12}
 ```
 
-```{r graph_length_3_viz, fig.height = 12}
+```{r graph_length_3_viz_724425, ref.label='graph_length_3_viz', fig.height = 12}
 ```
 
 ## Adding Other Factors to the Simple Model
@@ -402,7 +402,7 @@ I really want this model to work because unlike earlier where we were trying to 
 
 Much better. More believable although quite different from our first result. The difference is not a bad thing though because now we're including team effects whereas earlier we were ignoring it. I'd probably trust this model more than the earlier one. We could probably do some more fine tuning but it is reasonable right now so let us proceed.
 
-```{r calculating_deviations_simple_with_teams_61346134, ref.label = 'calculating_deviations_simple_with_teams'}
+```{r calculating_deviations_simple_with_teams_5413451345, ref.label = 'calculating_deviations_simple_with_teams'}
 ```
 
 The predictions are still not great though.
@@ -442,4 +442,4 @@ Based on the visual, there isn't a large improvement in the predictions though. 
 
 I also tried adding features related to age, physical attributes, playing position, matches or time played, and experience from other leagues to see if they helped narrow the prediction down but no luck. Going to have to continue at my job for some more time, I guess.
 
-For feedback, suggestions, etc. [find me on Twitter, thecomeonman](https://www.twitter.com/thecomeonman) or drop me a mail - mail dot thecomeonman at gmail.
+For feedback, suggestions, etc. [find me on Twitter, @thecomeonman](https://www.twitter.com/thecomeonman) or drop me a mail - mail dot thecomeonman at gmail.

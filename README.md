@@ -168,7 +168,7 @@ there.
 This is what the model suggests are the conversion factors between pairs
 of leagues.
 
-![](README_files/figure-markdown_strict/graph_viz-1.png)
+![](README_files/figure-markdown_strict/graph_viz_4513451345-1.png)
 
 Numbers &gt; 1 indicates moving from the league on the left to the
 league on bottom usually see the player increase their VAEP/minute by
@@ -202,9 +202,9 @@ reached a solution which upheld that relationship.
 This is how much the model suggested conversion factors differ from the
 observed factors.
 
-![](README_files/figure-markdown_strict/edges_viz-1.png)
+![](README_files/figure-markdown_strict/edges_viz_613461346-1.png)
 
-![](README_files/figure-markdown_strict/edges_deviation_viz-1.png)
+![](README_files/figure-markdown_strict/edges_deviation_viz_613461346-1.png)
 
 ![](README_files/figure-markdown_strict/edges_deviation_viz_hist-1.png)
 
@@ -225,9 +225,9 @@ conversion factor of all other ways in which a player could move between
 league a and league b, eg. league a -&gt; b compared to league a -&gt; c
 -&gt; b, league a -&gt; c -&gt; d -&gt; b, etc.
 
-![](README_files/figure-markdown_strict/graph_length_2_viz-1.png)
+![](README_files/figure-markdown_strict/graph_length_2_viz_24234213-1.png)
 
-![](README_files/figure-markdown_strict/graph_length_3_viz-1.png)
+![](README_files/figure-markdown_strict/graph_length_3_viz_24234213-1.png)
 
 The differences are usually very low which means our model was able to
 arrive at a solution where all the links were consistent with each other
@@ -333,7 +333,7 @@ Here are what the results for this simple model look like. They are
 quite similar to our earlier model and probably worth it for the ease of
 calibrating this.
 
-![](README_files/figure-markdown_strict/graph_viz-1.png)
+![](README_files/figure-markdown_strict/graph_viz_3451345134-1.png)
 
 So now that we have a to factor and a from factor for each league, as
 compared to have a separate relationship between each pair of leagues,
@@ -347,11 +347,11 @@ leagues from most other leagues also have a &lt;1 conversion factor.
 This means that these leagues are probably tough to play in even if
 players are coming from other leagues considered higher quality leagues.
 
-![](README_files/figure-markdown_strict/edges_viz-1.png)
+![](README_files/figure-markdown_strict/edges_viz_724524562-1.png)
 
-![](README_files/figure-markdown_strict/graph_length_2_viz-1.png)
+![](README_files/figure-markdown_strict/graph_length_2_viz_724524562-1.png)
 
-![](README_files/figure-markdown_strict/graph_length_3_viz-1.png)
+![](README_files/figure-markdown_strict/graph_length_3_viz_724425-1.png)
 
 ## Adding Other Factors to the Simple Model
 
@@ -387,9 +387,13 @@ away from 1. Let’s see what this looks like now.
 
 ![](README_files/figure-markdown_strict/graph_viz_simple_with_teams_8624-1.png)
 
-Much better. More believable although quite different from our first result. The difference is not a bad thing though because now we're including team effects whereas earlier we were ignoring it. I'd probably trust this model more than the earlier one. We could probably do some more fine tuning but it is reasonable right now so let us proceed.v
+Much better. More believable although quite different from our first
+result. The difference is not a bad thing though because now we’re
+including team effects whereas earlier we were ignoring it. I’d probably
+trust this model more than the earlier one. We could probably do some
+more fine tuning but it is reasonable right now so let us proceed.
 
-![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams_61346134-1.png)
+![](README_files/figure-markdown_strict/calculating_deviations_simple_with_teams_5413451345-1.png)
 
 The predictions are still not great though.
 
@@ -449,6 +453,6 @@ playing position, matches or time played, and experience from other
 leagues to see if they helped narrow the prediction down but no luck.
 Going to have to continue at my job for some more time, I guess.
 
-For feedback, suggestions, etc. [find me on Twitter,
-thecomeonman](https://www.twitter.com/thecomeonman) or drop me a mail -
-mail dot thecomeonman at gmail.
+For feedback, suggestions, etc. \[find me on Twitter,
+@thecomeonman\](<https://www.twitter.com/thecomeonman>) or drop me a
+mail - mail dot thecomeonman at gmail.
